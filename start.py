@@ -1,11 +1,12 @@
 from pytube import YouTube, Playlist
+from tqdm import tqdm
 import sys, time
 from src.cls import cls
 
 def menu():
     while True:
         cls()
-        option = input('Do you want to...\n1: Download video \n2: Download playlist \n3: Exit\n\nType here and press Enter key: ')
+        option = input('Choose an option: \n1: Download video \n2: Download playlist \n3: Exit\n\nType here and press Enter key: ')
 
         if option == '1':
             downloadVideo()
@@ -20,8 +21,13 @@ def menu():
             time.sleep(3)
 
 def downloadVideo():
-    yt = input('Paste video url here and press Enter key: ')
-    video = YouTube(yt)
+    yt = input('Paste video URL here and press Enter key: ')
+    try:
+        video = YouTube(yt)
+    except:
+        print('Invalid video URL, please try again...')
+        time.sleep(3)
+        menu()
 
     cls()
     print('Title: ' + video.title)
@@ -44,7 +50,7 @@ def downloadVideo():
     try:
         video.download()
     except:
-        print('Error, please try again...\n')
+        print('\nError, please try again...\n')
     else: 
         print('Download complete!\n')
     time.sleep(3)
@@ -52,19 +58,41 @@ def downloadVideo():
 
 def downloadPlaylist():
     yt = input('Paste playlist url here and press Enter key: ')
-    playlist = Playlist(yt)
+    try:
+        playlist = Playlist(yt)
+        playlist.title
+    except:
+        print('Invalid playlist URL, please try again...')
+        time.sleep(3)
+        menu()
+    
+    cls()
+    print('Title: ' + playlist.title)
+    option = input('What format do you want?\n1: MP4 high-resolution \n2: MP4 low-resolution \n3: MP4 audio-only \n\nType here and press Enter key: ')
+
+    if option != '1' and option != '2' and option != '3':
+        print('Invalid option, please try again...')
+        time.sleep(3)
+        menu()
 
     cls()
     print(playlist.title + '\nDownloading...\n')
 
     try:
-        for video in playlist.videos:
-            video.streams.first().download()
+        if option == '1':
+            for video in tqdm(playlist.videos):
+                video.streams.get_highest_resolution().download()
+        if option == '2':
+            for video in tqdm(playlist.videos):
+                video.streams.get_lowest_resolution().download()
+        if option == '3':
+            for video in tqdm(playlist.videos):
+                video.streams.get_audio_only().download()
     except:
-        print('Error, please try again...\n')
+        print('\nError, please try again...\n')
     else: 
-        print('Download complete!\n')
+        print('\nDownload complete\n')
     time.sleep(3)
-    menu()
-    
+    menu()    
+
 menu()
