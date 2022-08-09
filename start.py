@@ -70,7 +70,7 @@ def downloadPlaylist():
     print('Title: ' + playlist.title)
     option = input('What format do you want?\n1: MP4 high-resolution \n2: MP4 low-resolution \n3: MP4 audio-only \n\nType here and press Enter key: ')
 
-    if option != '1' and option != '2' and option != '3':
+    if option not in ["1", "2", "3"]:
         print('Invalid option, please try again...')
         time.sleep(3)
         menu()
