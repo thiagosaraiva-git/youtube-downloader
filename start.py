@@ -31,7 +31,7 @@ def downloadVideo():
 
     cls()
     print('Title: ' + video.title)
-    option = input('What format do you want?\n1: MP4 high-resolution \n2: MP4 low-resolution \n3: MP4 audio-only \n\nType here and press Enter key: ')
+    option = input('Which format do you want?\n1: MP4 high-resolution \n2: MP4 low-resolution \n3: MP4 audio-only \n\nType here and press Enter key: ')
 
     if option == '1':
         video = video.streams.get_highest_resolution()
@@ -68,7 +68,7 @@ def downloadPlaylist():
     
     cls()
     print('Title: ' + playlist.title)
-    option = input('What format do you want?\n1: MP4 high-resolution \n2: MP4 low-resolution \n3: MP4 audio-only \n\nType here and press Enter key: ')
+    option = input('Which format do you want?\n1: MP4 high-resolution \n2: MP4 low-resolution \n3: MP4 audio-only \n\nType here and press Enter key: ')
 
     if option not in ["1", "2", "3"]:
         print('Invalid option, please try again...')
